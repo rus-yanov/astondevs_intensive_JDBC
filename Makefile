@@ -1,5 +1,28 @@
+run:
+	./build/install/app/bin/app
+
+clean:
+	./gradlew clean
+
+build:
+	./gradlew clean war
+
+install:
+	./gradlew clean installDist
+
 test:
-	gradle test
+	./gradlew test
+
+report:
+	./gradlew jacocoTestReport
+
+lint:
+	./gradlew checkstyleMain checkstyleTest
+
+start-dist:
+	APP_ENV=production ./build/install/app/bin/app
 
 start:
-	gradle run
+	APP_ENV=development ./gradlew run
+
+.PHONY: build

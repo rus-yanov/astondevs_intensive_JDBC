@@ -12,4 +12,9 @@ public class Category {
     private String name;
     private List<Item> itemList;
 
+    public Category(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 }

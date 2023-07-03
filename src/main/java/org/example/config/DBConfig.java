@@ -22,8 +22,8 @@ public class DBConfig {
     public DBConfig() {
         this.driver = "org.postgresql.Driver";
         this.url = "jdbc:postgresql://localhost:5432/supermarket";
-        this.username = "postgres";
-        this.password = "postgres";
+        this.username = "rustam";
+        this.password = "1234";
     }
 
     public DBConfig(String test) {

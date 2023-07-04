@@ -30,7 +30,7 @@ public class ItemServletTest {
 
 
     @BeforeEach
-    public void beforeEach() throws SQLException, IOException{
+    public void beforeEach() throws SQLException, IOException {
         Connection connection = new DBConfig("test").getConnection();
         DBConfig.initForTest(connection);
         ItemDao itemDao = new ItemDao(new DBConfig("test"));

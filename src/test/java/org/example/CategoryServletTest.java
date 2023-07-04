@@ -29,7 +29,7 @@ public class CategoryServletTest {
     private StringWriter stringWriter;
 
     @BeforeEach
-    public void beforeEach() throws SQLException, IOException{
+    public void beforeEach() throws SQLException, IOException {
         Connection connection = new DBConfig("test").getConnection();
         DBConfig.initForTest(connection);
         CategoryDao categoryDao = new CategoryDao(new DBConfig("test"));

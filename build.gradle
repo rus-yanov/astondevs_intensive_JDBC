@@ -4,9 +4,6 @@ plugins {
     id 'jacoco'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
@@ -46,7 +43,8 @@ tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
 }
 
-test {
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
 

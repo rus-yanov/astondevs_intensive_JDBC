@@ -26,6 +26,6 @@ CREATE TABLE items_in_cart (
 	cart_id integer,
 	item_id integer,
 	FOREIGN KEY (cart_id) REFERENCES carts (id),
-	FOREIGN KEY (item_id) REFERENCES track (id),
+	FOREIGN KEY (item_id) REFERENCES items (id),
 	UNIQUE (cart_id, item_id)
 );

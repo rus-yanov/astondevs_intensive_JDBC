@@ -93,7 +93,7 @@ public final class CartDao {
             while (resultSet.next()) {
                 Item item = new Item();
                 item.setId(resultSet.getLong("item_id"));
-                item.setName(resultSet.getString("itwm_name"));
+                item.setName(resultSet.getString("item_name"));
                 item.setPrice(resultSet.getString("price"));
 
                 items.add(item);

@@ -63,7 +63,7 @@ public class CategoryServletTest {
 
     @Test
     public void getItemById() throws IOException, ServletException {
-        when(request.getPathInfo()).thenReturn("categories/2/item");
+        when(request.getPathInfo()).thenReturn("categories/2/items");
         when(response.getWriter()).thenReturn(printWriter);
         categoryServlet.doGet(request, response);
 

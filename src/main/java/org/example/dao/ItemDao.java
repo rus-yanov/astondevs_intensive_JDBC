@@ -94,11 +94,11 @@ public class ItemDao {
             }
 
             String sqlFindCart = "SELECT carts.id, carts.description \n"
-                    + "FROM items_in_cart AS ci\n"
+                    + "FROM items_in_cart as ic \n"
                     + "JOIN carts \n"
-                    + "ON carts.id = ci.carts_id\n"
+                    + "ON carts.id = ic.cart_id \n"
                     + "JOIN items\n"
-                    + "ON items.id = ci.item_id\n"
+                    + "ON items.id = items_in_cart.item_id\n"
                     + "WHERE items.id = ?;";
             preparedStatement = connection.prepareStatement(sqlFindCart);
             preparedStatement.setLong(1, id);

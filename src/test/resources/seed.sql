@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS items;
-DROP TABLE IF EXISTS carts;
-DROP TABLE IF EXISTS items_in_cart;
+DROP TABLE IF EXISTS categories CASCADE ;
+DROP TABLE IF EXISTS items CASCADE;
+DROP TABLE IF EXISTS carts CASCADE;
+DROP TABLE IF EXISTS items_in_cart CASCADE;
 
 CREATE TABLE categories (
 	id int auto_increment PRIMARY KEY,
@@ -26,7 +26,7 @@ CREATE TABLE items_in_cart (
 	cart_id integer,
 	item_id integer,
 	FOREIGN KEY (cart_id) REFERENCES carts (id),
-	FOREIGN KEY (item_id) REFERENCES track (id),
+	FOREIGN KEY (item_id) REFERENCES items (id),
 	UNIQUE (cart_id, item_id)
 );
 

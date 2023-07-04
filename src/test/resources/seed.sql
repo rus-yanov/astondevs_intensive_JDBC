@@ -11,7 +11,7 @@ CREATE TABLE categories (
 CREATE TABLE items (
 	id int auto_increment PRIMARY KEY,
 	name varchar(255),
-	price integer,
+	price varchar(255),
 	category_id integer,
 	FOREIGN KEY (category_id) REFERENCES categories (id)
 );
@@ -38,18 +38,18 @@ INSERT INTO categories (name) VALUES
        ('Dairy');
 
 INSERT INTO items (name, price, category_id) VALUES
-       ('Mellon', 4, 1),
-       ('Carrot', 2, 1),
-       ('Strawberry', 6, 1),
-       ('Tuna salad', 8, 2),
-       ('Sub sandwich', 7, 2),
-       ('Pepperoni pizza', 12, 2),
-       ('Turkey', 6, 3),
-       ('Beef', 15, 3),
-       ('Chardonnay', 17, 4),
-       ('Whiskey', 25, 4),
-       ('Milk', 3, 5),
-       ('Eggs', 4, 5);
+       ('Mellon', '4', 1),
+       ('Carrot', '2', 1),
+       ('Strawberry', '6', 1),
+       ('Tuna salad', '8', 2),
+       ('Sub sandwich', '7', 2),
+       ('Pepperoni pizza', '12', 2),
+       ('Turkey', '6', 3),
+       ('Beef', '15', 3),
+       ('Chardonnay', '17', 4),
+       ('Whiskey', '25', 4),
+       ('Milk', '3', 5),
+       ('Eggs', '4', 5);
 
 INSERT INTO carts (description) VALUES
         ('Home'),

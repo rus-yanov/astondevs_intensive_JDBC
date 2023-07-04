@@ -27,11 +27,11 @@ public class ItemService {
         return itemDao.findById(id);
     }
 
-    public void create(String name, int price) {
+    public void create(String name, String price) {
         itemDao.save(name, price);
     }
 
-    public void update(long id, String name, int price) {
+    public void update(long id, String name, String price) {
         itemDao.update(id, name, price);
     }
 

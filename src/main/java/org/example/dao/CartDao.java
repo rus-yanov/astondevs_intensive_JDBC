@@ -94,7 +94,7 @@ public final class CartDao {
                 Item item = new Item();
                 item.setId(resultSet.getLong("item_id"));
                 item.setName(resultSet.getString("itwm_name"));
-                item.setPrice(resultSet.getInt("price"));
+                item.setPrice(resultSet.getString("price"));
 
                 items.add(item);
             }

@@ -9,7 +9,7 @@ public class ItemDto {
 
     private int id;
     private String name;
-    private int price;
+    private String price;
     private CategoryDto category;
 
 }

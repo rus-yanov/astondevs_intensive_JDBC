@@ -1,14 +1,11 @@
-run:
-	./build/install/app/bin/app
+build:
+	./gradlew war
 
 clean:
 	./gradlew clean
 
-build:
-	./gradlew clean war
-
-install:
-	./gradlew clean installDist
+lint:
+	./gradlew checkstyleMain checkstyleTest
 
 test:
 	./gradlew test
@@ -16,13 +13,3 @@ test:
 report:
 	./gradlew jacocoTestReport
 
-lint:
-	./gradlew checkstyleMain checkstyleTest
-
-start-dist:
-	APP_ENV=production ./build/install/app/bin/app
-
-start:
-	APP_ENV=development ./gradlew run
-
-.PHONY: build

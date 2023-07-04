@@ -12,7 +12,7 @@ public class Item {
 
     private long id;
     private String name;
-    private int price;
+    private String price;
     private Category category;
     private List<Cart> cart;
 

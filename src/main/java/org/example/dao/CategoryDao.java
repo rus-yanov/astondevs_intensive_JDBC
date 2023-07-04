@@ -113,7 +113,7 @@ public class CategoryDao {
                 ItemDto itemDto = new ItemDto();
                 itemDto.setId(resultSet.getInt("item_id"));
                 itemDto.setName(resultSet.getString("item_name"));
-                itemDto.setPrice(resultSet.getInt("price"));
+                itemDto.setPrice(resultSet.getString("price"));
                 itemList.add(itemDto);
             }
         } catch (SQLException e) {
@@ -226,5 +226,4 @@ public class CategoryDao {
             }
         }
     }
-
 }

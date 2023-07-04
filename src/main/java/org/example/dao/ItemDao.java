@@ -43,7 +43,7 @@ public class ItemDao {
                 ItemDto item = new ItemDto();
                 item.setId(resultSet.getInt("id"));
                 item.setName((resultSet.getString("name")));
-                item.setPrice((resultSet.getInt("price")));
+                item.setPrice((resultSet.getString("price")));
                 item.setCategory(new CategoryDto(resultSet.getInt("category_id"),
                         resultSet.getString("category_name")));
                 itemList.add(item);
@@ -88,7 +88,7 @@ public class ItemDao {
                 item = new Item();
                 item.setId(resultSet.getInt("id"));
                 item.setName((resultSet.getString("name")));
-                item.setPrice((resultSet.getInt("price")));
+                item.setPrice((resultSet.getString("price")));
                 item.setCategory(new Category(resultSet.getInt("category_id"),
                         resultSet.getString("category_name")));
             }
@@ -133,7 +133,7 @@ public class ItemDao {
         return item;
     }
 
-    public void save(String name, int price) {
+    public void save(String name, String price) {
 
         Connection connection = config.getConnection();
 
@@ -141,7 +141,7 @@ public class ItemDao {
             String sql = "INSERT INTO items (name, price) VALUES (?,?);";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, price);
+            preparedStatement.setString(2, price);
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -196,7 +196,7 @@ public class ItemDao {
         }
     }
 
-    public void update(long id, String name, int price) {
+    public void update(long id, String name, String price) {
 
         Connection connection = config.getConnection();
         try {
@@ -210,7 +210,7 @@ public class ItemDao {
 
             String sql = "UPDATE items SET price=? WHERE id = ?;";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, price);
+            preparedStatement.setString(1, price);
             preparedStatement.setLong(2, id);
             preparedStatement.execute();
 

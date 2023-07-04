@@ -11,7 +11,7 @@ CREATE TABLE categories (
 CREATE TABLE items (
 	id serial PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	name varchar(255),
-	price integer,
+	price varchar(255),
 	category_id integer,
 	FOREIGN KEY (category_id) REFERENCES categories (id)
 );

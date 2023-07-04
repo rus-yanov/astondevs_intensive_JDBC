@@ -52,7 +52,7 @@ public class ItemServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        int price = Integer.parseInt(req.getParameter("price"));
+        String price = req.getParameter("price");
         itemService.create(name, price);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.sendRedirect("/items");
@@ -70,7 +70,7 @@ public class ItemServlet extends HttpServlet {
     public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
         String name = req.getParameter("name");
-        int price = Integer.parseInt(req.getParameter("price"));
+        String price = req.getParameter("price");
         itemService.update(Long.parseLong(id), name, price);
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/items/" + id);

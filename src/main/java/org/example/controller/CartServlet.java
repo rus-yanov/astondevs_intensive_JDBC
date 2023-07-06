@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "CartServlet", urlPatterns = "/carts/*")
@@ -39,10 +40,20 @@ public class CartServlet extends HttpServlet {
         String json = null;
 
         if (id == null) {
-            List<CartDto> list = cartService.getAll();
+            List<CartDto> list = null;
+            try {
+                list = cartService.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(list);
         } else {
-            Cart cart = cartService.getById(Long.parseLong(id));
+            Cart cart = null;
+            try {
+                cart = cartService.getById(Long.parseLong(id));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(cart);
         }
 
@@ -54,7 +65,11 @@ public class CartServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("description");
-        cartService.create(description);
+        try {
+            cartService.create(description);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.sendRedirect("/carts");
     }
@@ -63,7 +78,11 @@ public class CartServlet extends HttpServlet {
     public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
         String newDesc = req.getParameter("description");
-        cartService.update(Long.parseLong(id), newDesc);
+        try {
+            cartService.update(Long.parseLong(id), newDesc);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/carts/" + id);
     }
@@ -71,7 +90,11 @@ public class CartServlet extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
-        cartService.delete(Long.parseLong(id));
+        try {
+            cartService.delete(Long.parseLong(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/carts");
     }

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import org.example.config.DBConfig;
 import org.example.controller.ItemServlet;
@@ -30,10 +30,8 @@ public class ItemServletTest {
 
 
     @BeforeEach
-    public void beforeEach() throws SQLException, IOException {
-        Connection connection = new DBConfig("test").getConnection();
-        DBConfig.initForTest(connection);
-        ItemDao itemDao = new ItemDao(new DBConfig("test"));
+    public void beforeEach() {
+        ItemDao itemDao = new ItemDao(new DBConfig());
         ItemService itemService = new ItemService(itemDao);
         itemServlet = new ItemServlet(itemService);
         request = mock(HttpServletRequest.class);
@@ -43,7 +41,7 @@ public class ItemServletTest {
     }
 
     @Test
-    public void getAllItems() throws ServletException, IOException {
+    public void getAllItemsTest() throws ServletException, IOException {
         when(request.getPathInfo()).thenReturn(null);
         when(response.getWriter()).thenReturn(printWriter);
         itemServlet.doGet(request, response);
@@ -54,7 +52,7 @@ public class ItemServletTest {
     }
 
     @Test
-    public void getById() throws ServletException, IOException {
+    public void getByIdTest() throws ServletException, IOException {
         when(request.getPathInfo()).thenReturn("items/7/");
         when(response.getWriter()).thenReturn(printWriter);
         itemServlet.doGet(request, response);
@@ -65,7 +63,7 @@ public class ItemServletTest {
     }
 
     @Test
-    public void create() throws IOException, ServletException {
+    public void createTest() throws IOException, ServletException {
         when(request.getParameter("name")).thenReturn("Beer");
         when(request.getParameter("price")).thenReturn("9");
         itemServlet.doPost(request, response);
@@ -78,7 +76,7 @@ public class ItemServletTest {
     }
 
     @Test
-    public void delete() throws ServletException, IOException {
+    public void deleteTest() throws ServletException, IOException {
         when(request.getPathInfo()).thenReturn("items/4/");
         itemServlet.doDelete(request, response);
 
@@ -89,7 +87,7 @@ public class ItemServletTest {
     }
 
     @Test
-    public void update() throws ServletException, IOException {
+    public void updateTest() throws ServletException, IOException {
         when(request.getParameter("name")).thenReturn("Coconut");
         when(request.getPathInfo()).thenReturn("items/1/");
         itemServlet.doPut(request, response);

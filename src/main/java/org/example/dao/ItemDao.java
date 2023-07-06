@@ -25,7 +25,7 @@ public class ItemDao {
         this.config = config;
     }
 
-    public List<ItemDto> findAll() {
+    public List<ItemDto> findAll() throws SQLException {
         List<ItemDto> itemList = new ArrayList<>();
 
         Connection connection = config.getConnection();
@@ -66,7 +66,7 @@ public class ItemDao {
         return itemList;
     }
 
-    public Item findById(long id) {
+    public Item findById(long id) throws SQLException {
         Item item = new Item();
 
         Connection connection = config.getConnection();
@@ -97,8 +97,8 @@ public class ItemDao {
                     + "FROM items_in_cart as ic \n"
                     + "JOIN carts \n"
                     + "ON carts.id = ic.cart_id \n"
-                    + "JOIN items\n"
-                    + "ON items.id = items_in_cart.item_id\n"
+                    + "JOIN items \n"
+                    + "ON items.id = item_id \n"
                     + "WHERE items.id = ?;";
             preparedStatement = connection.prepareStatement(sqlFindCart);
             preparedStatement.setLong(1, id);
@@ -133,7 +133,7 @@ public class ItemDao {
         return item;
     }
 
-    public void save(String name, String price) {
+    public void save(String name, String price) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -161,7 +161,7 @@ public class ItemDao {
         }
     }
 
-    public void delete(long id) {
+    public void delete(long id) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -196,7 +196,7 @@ public class ItemDao {
         }
     }
 
-    public void update(long id, String name, String price) {
+    public void update(long id, String name, String price) throws SQLException {
 
         Connection connection = config.getConnection();
         try {

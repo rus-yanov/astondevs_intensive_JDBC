@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "ItemServlet", urlPatterns = "/items/*")
@@ -37,10 +38,20 @@ public class ItemServlet extends HttpServlet {
         String json;
 
         if (id == null) {
-            List<ItemDto> list = itemService.getAll();
+            List<ItemDto> list = null;
+            try {
+                list = itemService.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(list);
         } else {
-            Item item = itemService.getById(Long.parseLong(id));
+            Item item = null;
+            try {
+                item = itemService.getById(Long.parseLong(id));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(item);
         }
 
@@ -53,7 +64,11 @@ public class ItemServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String price = req.getParameter("price");
-        itemService.create(name, price);
+        try {
+            itemService.create(name, price);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.sendRedirect("/items");
     }
@@ -61,7 +76,11 @@ public class ItemServlet extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
-        itemService.delete(Long.parseLong(id));
+        try {
+            itemService.delete(Long.parseLong(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/items");
     }
@@ -71,7 +90,11 @@ public class ItemServlet extends HttpServlet {
         String id = Parser.getId(req);
         String name = req.getParameter("name");
         String price = req.getParameter("price");
-        itemService.update(Long.parseLong(id), name, price);
+        try {
+            itemService.update(Long.parseLong(id), name, price);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/items/" + id);
     }

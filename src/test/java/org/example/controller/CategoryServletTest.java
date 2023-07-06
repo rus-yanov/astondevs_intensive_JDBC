@@ -1,7 +1,6 @@
-package org.example;
+package org.example.controller;
 
 import org.example.config.DBConfig;
-import org.example.controller.CategoryServlet;
 import org.example.dao.CategoryDao;
 import org.example.service.CategoryService;
 
@@ -11,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,10 +26,8 @@ public class CategoryServletTest {
     private StringWriter stringWriter;
 
     @BeforeEach
-    public void beforeEach() throws SQLException, IOException {
-        Connection connection = new DBConfig("test").getConnection();
-        DBConfig.initForTest(connection);
-        CategoryDao categoryDao = new CategoryDao(new DBConfig("test"));
+    public void beforeEach() {
+        CategoryDao categoryDao = new CategoryDao(new DBConfig());
         CategoryService categoryService = new CategoryService(categoryDao);
         categoryServlet = new CategoryServlet(categoryService);
         request = mock(HttpServletRequest.class);
@@ -42,7 +37,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void getAllCategories() throws IOException, ServletException {
+    public void getAllCategoriesTest() throws IOException, ServletException {
         when(request.getPathInfo()).thenReturn(null);
         when(response.getWriter()).thenReturn(printWriter);
         categoryServlet.doGet(request, response);
@@ -53,7 +48,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void getById() throws IOException, ServletException {
+    public void getByIdTest() throws IOException, ServletException {
         when(request.getPathInfo()).thenReturn("categories/1/");
         when(response.getWriter()).thenReturn(printWriter);
         categoryServlet.doGet(request, response);
@@ -62,7 +57,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void getItemById() throws IOException, ServletException {
+    public void getItemByIdTest() throws IOException, ServletException {
         when(request.getPathInfo()).thenReturn("categories/2/items");
         when(response.getWriter()).thenReturn(printWriter);
         categoryServlet.doGet(request, response);
@@ -72,7 +67,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void create() throws ServletException, IOException {
+    public void createTest() throws ServletException, IOException {
         when(request.getParameter("name")).thenReturn("Cosmetics");
         categoryServlet.doPost(request, response);
 
@@ -83,7 +78,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void update() throws ServletException, IOException {
+    public void updateTest() throws ServletException, IOException {
         when(request.getParameter("name")).thenReturn("Electronics");
         when(request.getPathInfo()).thenReturn("categories/5/");
         categoryServlet.doPut(request, response);
@@ -95,7 +90,7 @@ public class CategoryServletTest {
     }
 
     @Test
-    public void delete() throws ServletException, IOException {
+    public void deleteTest() throws ServletException, IOException {
 
         when(request.getPathInfo()).thenReturn("categories/4/");
         categoryServlet.doDelete(request, response);

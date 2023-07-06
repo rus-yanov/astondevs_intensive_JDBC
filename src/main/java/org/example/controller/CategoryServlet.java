@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "CategoryServlet", urlPatterns = "/categories/*")
@@ -40,13 +41,28 @@ public class CategoryServlet extends HttpServlet {
 
         String json;
         if (id == null) {
-            List<CategoryDto> list = categoryService.getAll();
+            List<CategoryDto> list = null;
+            try {
+                list = categoryService.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(list);
         } else if (pathVariable != null && pathVariable.equals("items")) {
-            List<ItemDto> itemDtoList = categoryService.getByCategoryId(Long.parseLong(id));
+            List<ItemDto> itemDtoList = null;
+            try {
+                itemDtoList = categoryService.getByCategoryId(Long.parseLong(id));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(itemDtoList);
         } else {
-            CategoryDto genre = categoryService.getById(Long.parseLong(id));
+            CategoryDto genre = null;
+            try {
+                genre = categoryService.getById(Long.parseLong(id));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             json = objectMapper.writeValueAsString(genre);
         }
         PrintWriter printWriter = resp.getWriter();
@@ -59,7 +75,11 @@ public class CategoryServlet extends HttpServlet {
         String name = req.getParameter("name");
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName(name);
-        categoryService.create(categoryDto);
+        try {
+            categoryService.create(categoryDto);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.sendRedirect("/categories");
     }
@@ -67,7 +87,11 @@ public class CategoryServlet extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
-        categoryService.delete(Long.parseLong(id));
+        try {
+            categoryService.delete(Long.parseLong(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/categories");
     }
@@ -76,7 +100,11 @@ public class CategoryServlet extends HttpServlet {
     public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = Parser.getId(req);
         String name = req.getParameter("name");
-        categoryService.update(Long.parseLong(id), name);
+        try {
+            categoryService.update(Long.parseLong(id), name);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.sendRedirect("/categories/" + id);
     }

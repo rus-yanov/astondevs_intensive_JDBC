@@ -22,7 +22,7 @@ public class CategoryDao {
         this.config = config;
     }
 
-    public List<CategoryDto> findAll() {
+    public List<CategoryDto> findAll() throws SQLException {
         List<CategoryDto> categoryList = new ArrayList<>();
 
         Connection connection = config.getConnection();
@@ -55,7 +55,7 @@ public class CategoryDao {
         return categoryList;
     }
 
-    public CategoryDto findById(long id) {
+    public CategoryDto findById(long id) throws SQLException {
 
         CategoryDto categoryDto = new CategoryDto();
 
@@ -92,7 +92,7 @@ public class CategoryDao {
         return categoryDto;
     }
 
-    public List<ItemDto> findAllItemsByCategoryId(long id) {
+    public List<ItemDto> findAllItemsByCategoryId(long id) throws SQLException {
         List<ItemDto> itemList = new ArrayList<>();
 
         Connection connection = config.getConnection();
@@ -134,7 +134,7 @@ public class CategoryDao {
         return itemList;
     }
 
-    public void save(String name) {
+    public void save(String name) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -162,7 +162,7 @@ public class CategoryDao {
         }
     }
 
-    public void delete(long id) {
+    public void delete(long id) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -198,7 +198,7 @@ public class CategoryDao {
         }
     }
 
-    public void update(long id, String name) {
+    public void update(long id, String name) throws SQLException {
 
         Connection connection = config.getConnection();
 

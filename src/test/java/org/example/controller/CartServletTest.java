@@ -1,7 +1,6 @@
-package org.example;
+package org.example.controller;
 
 import org.example.config.DBConfig;
-import org.example.controller.CartServlet;
 import org.example.dao.CartDao;
 import org.example.service.CartService;
 
@@ -11,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,10 +26,8 @@ public class CartServletTest {
     private StringWriter stringWriter;
 
     @BeforeEach
-    public void beforeEach() throws SQLException, IOException {
-        Connection connection = new DBConfig("test").getConnection();
-        DBConfig.initForTest(connection);
-        CartDao cartDao = new CartDao(new DBConfig("test"));
+    public void beforeEach() {
+        CartDao cartDao = new CartDao(new DBConfig());
         CartService cartService = new CartService(cartDao);
         cartServlet = new CartServlet(cartService);
         request = mock(HttpServletRequest.class);
@@ -42,7 +37,7 @@ public class CartServletTest {
     }
 
     @Test
-    public void getAllCarts() throws IOException, ServletException {
+    public void getAllCartsTest() throws IOException, ServletException {
         when(request.getPathInfo()).thenReturn(null);
         when(response.getWriter()).thenReturn(printWriter);
         cartServlet.doGet(request, response);
@@ -53,7 +48,7 @@ public class CartServletTest {
     }
 
     @Test
-    public void getById() throws IOException, ServletException {
+    public void getByIdTest() throws IOException, ServletException {
         when(request.getPathInfo()).thenReturn("carts/1/");
         when(response.getWriter()).thenReturn(printWriter);
         cartServlet.doGet(request, response);
@@ -62,7 +57,7 @@ public class CartServletTest {
     }
 
     @Test
-    public void create() throws ServletException, IOException {
+    public void createTest() throws ServletException, IOException {
         when(request.getParameter("description")).thenReturn("For picnic");
         cartServlet.doPost(request, response);
 
@@ -74,7 +69,7 @@ public class CartServletTest {
     }
 
     @Test
-    public void update() throws ServletException, IOException {
+    public void updateTest() throws ServletException, IOException {
         when(request.getParameter("description")).thenReturn("Stuff not needed");
         when(request.getPathInfo()).thenReturn("carts/2/");
         cartServlet.doPut(request, response);
@@ -87,7 +82,7 @@ public class CartServletTest {
     }
 
     @Test
-    public void delete() throws ServletException, IOException {
+    public void deleteTest() throws ServletException, IOException {
         when(request.getPathInfo()).thenReturn("carts/1/");
         cartServlet.doDelete(request, response);
 

@@ -1,6 +1,10 @@
 package org.example.config;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,46 +12,38 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DBConfig {
 
-    private String driver;
+    private static final Properties properties = new Properties();
+    private static final String DATABASE_URL;
 
-    private String url;
-
-    private String username;
-
-    private String password;
-
-    public DBConfig() {
-        this.driver = "org.postgresql.Driver";
-        this.url = "jdbc:postgresql://localhost:5432/supermarket";
-        this.username = "rustam";
-        this.password = "1234";
-    }
-
-    public DBConfig(String test) {
-        if (test.equals("test")) {
-            this.driver = "org.h2.Driver";
-            this.url = "jdbc:h2:./database";
-            this.username = "sa";
-            this.password = "sa";
-        }
-    }
-
-    public final Connection getConnection() {
-        Connection connection = null;
+    static {
         try {
-            try {
-                Class.forName(driver);
-            } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
-            }
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            properties.load(new FileReader(getFileFromResource("database.properties")));
+            String driverName = (String) properties.get("db.driver");
+            Class.forName(driverName);
+        } catch (ClassNotFoundException | IOException | URISyntaxException e) {
+            e.printStackTrace();
         }
-        return connection;
+
+        DATABASE_URL = (String) properties.get("db.url");
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DATABASE_URL, properties);
+    }
+
+    public static File getFileFromResource(final String fileName)
+            throws URISyntaxException {
+        ClassLoader classLoader = DBConfig.class.getClassLoader();
+        URL resource = classLoader.getResource(fileName);
+        if (resource != null) {
+            return new File(resource.toURI());
+        } else {
+            throw new URISyntaxException(fileName, ": couldn't be parsed.");
+        }
     }
 
     public static void closeConnection(Connection connection) {

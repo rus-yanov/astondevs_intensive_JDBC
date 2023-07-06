@@ -24,7 +24,7 @@ public final class CartDao {
         this.config = config;
     }
 
-    public List<CartDto> getAll() {
+    public List<CartDto> findAll() throws SQLException {
 
         List<CartDto> cartList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public final class CartDao {
         return cartList;
     }
 
-    public Cart getById(long id) {
+    public Cart findById(long id) throws SQLException {
         Cart cart = new Cart();
 
         Connection connection = config.getConnection();
@@ -121,7 +121,7 @@ public final class CartDao {
         return cart;
     }
 
-    public void save(String description) {
+    public void save(String description) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -147,7 +147,7 @@ public final class CartDao {
         }
     }
 
-    public void delete(long id) {
+    public void delete(long id) throws SQLException {
 
         Connection connection = config.getConnection();
 
@@ -182,7 +182,7 @@ public final class CartDao {
         }
     }
 
-    public void update(long id, String description) {
+    public void update(long id, String description) throws SQLException {
 
         Connection connection = config.getConnection();
 

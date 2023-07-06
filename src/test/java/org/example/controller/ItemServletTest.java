@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,10 +87,11 @@ public class ItemServletTest {
     @Test
     public void updateTest() throws ServletException, IOException {
         when(request.getParameter("name")).thenReturn("Coconut");
-        when(request.getPathInfo()).thenReturn("items/1/");
+        when(request.getParameter("price")).thenReturn("9");
+        when(request.getPathInfo()).thenReturn("items/12/");
         itemServlet.doPut(request, response);
 
-        when(request.getPathInfo()).thenReturn("items/1/");
+        when(request.getPathInfo()).thenReturn("items/12/");
         when(response.getWriter()).thenReturn(printWriter);
         itemServlet.doGet(request, response);
         assertThat(stringWriter.toString()).contains("Coconut");

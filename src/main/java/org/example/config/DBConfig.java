@@ -16,23 +16,23 @@ import java.util.Properties;
 
 public class DBConfig {
 
-    private static final Properties properties = new Properties();
+    private static final Properties PROPERTIES = new Properties();
     private static final String DATABASE_URL;
 
     static {
         try {
-            properties.load(new FileReader(getFileFromResource("database.properties")));
-            String driverName = (String) properties.get("db.driver");
+            PROPERTIES.load(new FileReader(getFileFromResource("database.properties")));
+            String driverName = (String) PROPERTIES.get("db.driver");
             Class.forName(driverName);
         } catch (ClassNotFoundException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
-        DATABASE_URL = (String) properties.get("db.url");
+        DATABASE_URL = (String) PROPERTIES.get("db.url");
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DATABASE_URL, properties);
+        return DriverManager.getConnection(DATABASE_URL, PROPERTIES);
     }
 
     public static File getFileFromResource(final String fileName)

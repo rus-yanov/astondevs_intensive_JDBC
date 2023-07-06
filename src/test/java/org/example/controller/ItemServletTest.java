@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import org.example.config.DBConfig;
-import org.example.controller.ItemServlet;
 import org.example.dao.ItemDao;
 import org.example.service.ItemService;
 

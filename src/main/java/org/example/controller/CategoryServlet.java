@@ -16,7 +16,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "CategoryServlet", urlPatterns = "/categories/*")
+@WebServlet(name = "CategoryServlet",
+        urlPatterns = "/categories/*")
 public class CategoryServlet extends HttpServlet {
 
     private final CategoryService categoryService;
@@ -27,12 +28,10 @@ public class CategoryServlet extends HttpServlet {
         this.categoryService = categoryService;
     }
 
-    public CategoryServlet() {
-        this.categoryService = new CategoryService();
-    }
-
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req,
+                      HttpServletResponse resp)
+            throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("utf-8");
 
@@ -71,7 +70,9 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req,
+                       HttpServletResponse resp)
+            throws ServletException, IOException {
         String name = req.getParameter("name");
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName(name);
@@ -85,7 +86,9 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doDelete(HttpServletRequest req,
+                         HttpServletResponse resp)
+            throws ServletException, IOException {
         String id = Parser.getId(req);
         try {
             categoryService.delete(Long.parseLong(id));
@@ -97,7 +100,9 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    public void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPut(HttpServletRequest req,
+                      HttpServletResponse resp)
+            throws ServletException, IOException {
         String id = Parser.getId(req);
         String name = req.getParameter("name");
         try {

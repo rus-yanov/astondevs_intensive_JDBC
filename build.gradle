@@ -34,18 +34,16 @@ dependencies {
 }
 
 compileJava {
+    options.release = 17
     options.encoding = 'UTF-8'
 }
 
-compileTestJava.options.encoding = 'UTF-8'
-
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
+checkstyle {
+    toolVersion "10.3.1"
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+jacocoTestReport {
+    dependsOn test
 }
 
 jacocoTestReport {
@@ -59,10 +57,20 @@ jacoco {
     reportsDirectory = layout.buildDirectory.dir('jacocoReport')
 }
 
-test {
-    finalizedBy jacocoTestReport
+testlogger {
+    theme 'mocha' // project level
+    slowThreshold 5000
+    showStandardStreams true
 }
 
-jacocoTestReport {
-    dependsOn test
+test {
+    testlogger {
+        theme 'standard-parallel' // task level
+        slowThreshold 5000
+    }
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }

@@ -34,7 +34,6 @@ dependencies {
 }
 
 compileJava {
-    options.release = 17
     options.encoding = 'UTF-8'
 }
 
@@ -44,6 +43,10 @@ tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
 }
 
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
 checkstyle {
     toolVersion "10.3.1"
 }
@@ -64,13 +67,5 @@ jacoco {
 }
 
 test {
-    testlogger {
-        theme 'standard-parallel' // task level
-        slowThreshold 5000
-    }
-}
-
-test {
-    useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
